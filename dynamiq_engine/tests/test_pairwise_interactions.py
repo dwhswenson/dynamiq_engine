@@ -151,3 +151,15 @@ class testQuarticInteraction(object):
             2.0 : 55.75
         }
         check_function(self.quartic.d2fdx2, tests)
+
+class testGaussianInteraction(object):
+    pass
+
+class testLennardJonesInteraction(object):
+    pass
+
+class testWCAInteraction(object):
+    pass
+
+class testGeneralizedWCAInteraction(object):
+    pass
