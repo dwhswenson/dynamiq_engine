@@ -63,6 +63,25 @@ class Snapshot(paths.AbstractSnapshot):
         self.topology = other.topology
         self.is_reversed = other.is_reversed
 
+@lazy_loading_attributes('_reversed')
+class MMSTSnapshot(Snapshot):
+    __features__ = [
+        paths.features.coordinates,
+        features.momenta,
+        features.electronic_coordinates,
+        features.electronic_momenta
+    ]
+    def __init__(self, coordinates=None, momenta=None, monodromy=None,
+                 electronic_coordinates=None, electronic_momenta=None,
+                 is_reversed=False, topology=None, reversed_copy=None):
+        super(MMSTSnapshot, self).__init__(
+            coordinates=coordinates, momenta=momenta, monodromy=monodromy,
+            is_reversed=is_reversed, topology=topology,
+            reversed_copy=reversed_copy
+        )
+        self.electronic_coordinates = electronic_coordinates
+        self.electronic_momenta = electronic_momenta
+
 
 class Topology(paths.Topology):
     def __init__(self, masses, potential):

@@ -1,7 +1,7 @@
 #!/bin/sh
 # based on OPS version
 
-sudo apt-get update
+#sudo apt-get update
 
 ### Install Miniconda
 

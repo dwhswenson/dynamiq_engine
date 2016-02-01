@@ -50,6 +50,30 @@ class CandyRozmus4(Integrator):
             self.position_update(potential, new_snap, k)
         # wrap PBCs if necessary
 
+class CandyRozmus4MMST(CandyRozmus4):
+    def __init__(self, dt, potential, n_frames=1):
+        super(CandyRozmus4MMST, self).__init__(dt, potential, n_frames)
+        self.local_electronic_dHdp = np.zeros(potential.n_electronic_states)
+        self.local_electronic_dHdq = np.zeros(potential.n_electronic_states)
+    
+    def position_update(self, potential, snap, k):
+        potential.set_dHdp(self.local_dHdp, snap)
+        self.local_dHdp *=  self._a_k[k]
+        potential.set_electronic_dHdp(self.local_electronic_dHdp, snap)
+        self.local_electronic_dHdp *= self._a_k[k]
+        np.add(snap.coordinates, self.local_dHdp, snap.coordinates)
+        np.add(snap.electronic_coordinates, self.local_electronic_dHdp, 
+               snap.electronic_coordinates)
+
+    def momentum_update(self, potential, snap, k):
+        potential.set_dHdq(self.local_dHdq, snap)
+        self.local_dHdq *= self._b_k[k]
+        potential.set_electronic_dHdq(self.local_electronic_dHdq, snap)
+        self.local_electronic_dHdq *= self._b_k[k]
+        np.subtract(snap.momenta, self.local_dHdq, snap.momenta)
+        np.subtract(snap.electronic_momenta, self.local_electronic_dHdq,
+                    snap.electronic_momenta)
+
 # to be done later
 class CandyRozmus4Monodromy(CandyRozmus4):
     """Fourth-order integrator by Candy and Rozmus, including monodromy

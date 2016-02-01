@@ -119,7 +119,25 @@ class QuarticInteraction(PairwiseInteraction):
         return (12.0*self.alpha*x2 + 6.0*self.beta*x + 2.0*self.gamma)
 
 class GaussianInteraction(PairwiseInteraction):
-    pass
+    def __init__(self, A, alpha, x0=0.0):
+        self.A = A
+        self.alpha = alpha
+        self.x0 = x0
+
+    def f(self, x):
+        dx = x-self.x0
+        func = self.A*np.exp(-self.alpha*dx*dx)
+        return func
+
+    def dfdx(self, x):
+        dx = x-self.x0
+        func = self.A*np.exp(-self.alpha*dx*dx)
+        return -2.0*self.alpha*dx*func
+
+    def d2fdx2(self, x):
+        dx = x-self.x0
+        func = self.A*np.exp(-self.alpha*dx*dx)
+        return 2.0*self.alpha*(2.0*self.alpha*dx*dx - 1.0)*func
 
 class LennardJonesInteraction(PairwiseInteraction):
     pass

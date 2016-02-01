@@ -153,7 +153,36 @@ class testQuarticInteraction(object):
         check_function(self.quartic.d2fdx2, tests)
 
 class testGaussianInteraction(object):
-    pass
+    def setup(self):
+        self.gaussian = GaussianInteraction(A=2.0, alpha=0.25, x0=0.5)
+
+    def test_f(self):
+        tests = {
+            0.0 : 1.87882612562695,
+            0.5 : 2.0,
+            1.0 : 1.87882612562695,
+            2.0 : 1.13956564946185
+        }
+        check_function(self.gaussian.f, tests)
+        check_function(self.gaussian, tests)
+
+    def test_dfdx(self):
+        tests = {
+            0.0 : 0.469706531406738,
+            0.5 : 0.0,
+            1.0 : -0.469706531406738,
+            2.0 : -0.854674237096384
+        }
+        check_function(self.gaussian.dfdx, tests)
+
+    def test_d2fdx2(self):
+        tests = {
+            0.0 : -0.821986429961791,
+            0.5 : -1.0,
+            1.0 : -0.821986429961791,
+            2.0 : 0.0712228530913653
+        }
+        check_function(self.gaussian.d2fdx2, tests)
 
 class testLennardJonesInteraction(object):
     pass
