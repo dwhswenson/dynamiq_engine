@@ -6,6 +6,8 @@ import math
 import dynamiq_engine.features as dynq_f
 import openpathsampling.engines.features as paths_f
 
+import dynamiq_engine as dynq
+
 class CandyRozmus4(Integrator):
     """Fourth-order integrator by Candy and Rozmus.
 
@@ -87,6 +89,26 @@ class CandyRozmus4(Integrator):
         if dynq_f.action in self.feature_list:
             post_momentum.append(self.action_update)
             self.local_S = 0.0
+
+        if dynq_f.monodromy in self.feature_list:
+            monodromy_helpers = [
+                h for h in self.helpers
+                if isinstance(h, dynq.integrators.MonodromyHelper)
+            ]
+            try:
+                monodromy_helper = monodromy_helpers[-1]
+            except IndexError as e:
+                msg = "integrator needs a MonodromyHelper in its helpers"
+                full_msg = " (" + msg + ")"
+                e.args = tuple([e.args[0] + full_msg] + list(e.args[1:]))
+                raise
+
+            if monodromy_helper.monodromy_type == "dt":
+                pass
+            elif monodromy_helper.monodromy_type == "ft":
+                pass
+            elif monodromy_helper.monodromy_type == "local":
+                pass
 
         self.update_steps = (pre_step +
                              pre_momentum + momentum + post_momentum +

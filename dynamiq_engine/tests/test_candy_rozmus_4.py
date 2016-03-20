@@ -78,6 +78,19 @@ class testCandyRozmus4(object):
         # TODO: test action is correct
         assert_almost_equal(new_snap.action, exact['S'])
 
+    def test_monodromy_dt(self):
+        import openpathsampling.engines.features as paths_f
+        import dynamiq_engine.features as dynq_f
+        self.integ.helpers = [dynq.integrators.StandardMonodromy()]
+        self.integ.prepare([paths_f.coordinates, dynq_f.momenta,
+                            dynq_f.monodromy])
+        new_snap = dynq.Snapshot(coordinates=np.array([0.0]),
+                                 momenta=np.array([1.0]),
+                                 topology=self.topology)
+        self.integ.reset(new_snap)
+
+        pass
+
 class testCandyRozmus4MMST(object):
     def test_step_uncoupled(self):
         from math import sqrt
