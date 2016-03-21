@@ -91,6 +91,17 @@ class testCandyRozmus4(object):
 
         pass
 
+    def test_cast_snapshot(self):
+        new_snap = dynq.Snapshot(coordinates=np.array([0.0]),
+                                 momenta=np.array([1.0]),
+                                 topology=self.topology)
+        self.integ.helpers = [dynq.integrators.StandardMonodromy()]
+        self.integ.prepare([paths_f.coordinates, dynq_f.momenta,
+                            dynq_f.monodromy])
+        self.integ.cast_snapshot(new_snap)
+        raise SkipTest
+
+
 class testCandyRozmus4MMST(object):
     def test_step_uncoupled(self):
         from math import sqrt
