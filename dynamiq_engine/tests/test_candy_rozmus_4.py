@@ -79,6 +79,7 @@ class testCandyRozmus4(object):
         assert_almost_equal(new_snap.action, exact['S'])
 
     def test_monodromy_dt(self):
+        raise SkipTest
         import openpathsampling.engines.features as paths_f
         import dynamiq_engine.features as dynq_f
         self.integ.helpers = [dynq.integrators.StandardMonodromy()]
