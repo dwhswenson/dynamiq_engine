@@ -5,6 +5,7 @@ import math
 
 import dynamiq_engine.features as dynq_f
 import openpathsampling.engines.features as paths_f
+import openpathsampling.engines as peng
 
 import dynamiq_engine as dynq
 
@@ -56,13 +57,19 @@ class CandyRozmus4(Integrator):
 
     def cast_snapshot(self, snapshot):
         # TODO: this will do to superclass
-        snap_features = snapshot.__features__['classes']
-        snapshot_only = set(snap_features) - set(self.feature_list)
+        snap_features = set(snapshot.__features__['classes'])
         integ_only = set(self.feature_list) - set(snap_features)
-        print "snap", snap_features
-        print "integ", self.feature_list
-        print "snap_only", snapshot_only
+        not_integrated = set(self._feature_type['not_integrated'] +
+                             self._feature_type['properties'])
+        snap_only = snap_features - set(self.feature_list) - not_integrated
+
+        print "snap_only", snap_only
         print "integ_only", integ_only
+        self.SnapshotType = peng.SnapshotFactory(
+            name="MySnapshot",
+            features=list(snap_features) + list(integ_only)
+        )
+        
         pass
 
     def prepare(self, feature_list):
