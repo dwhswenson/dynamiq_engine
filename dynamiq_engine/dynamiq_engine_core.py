@@ -187,7 +187,7 @@ class DynamiqEngine(peng.DynamicsEngine):
         self.integrator.step(potential=self.potential,
                              old_snap=self._current_snapshot,
                              new_snap=self._current_snapshot)
-        return self.current_snapshot
+        return copy.deepcopy(self.current_snapshot)
 
     #def generate_n_frames(self, n):
         # TODO: we can make faster ways of doing this than in the OPS code

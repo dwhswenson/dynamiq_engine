@@ -1,0 +1,12 @@
+#!/bin/bash
+# MUST RUN IN BASH!
+
+# this runs the profiling tests
+python profiling.py --timing --cprofile
+
+for pstat in *pstats
+do
+    base=${pstat##*/}
+    base=${base%.pstats}
+    gprof2dot -f pstats $pstat | dot -Tpng -o ${base}.png
+done

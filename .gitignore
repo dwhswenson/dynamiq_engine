@@ -6,6 +6,9 @@ __pycache__/
 # VIM
 *swp
 
+# ipynb
+.ipynb_checkpoints
+
 # C extensions
 *.so
 

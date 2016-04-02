@@ -74,7 +74,11 @@ class testDynamiqEngine(object):
                       p0=1.0, q0=1.0)
         assert_almost_equal(ho['q'], newsnap.coordinates)
         assert_almost_equal(ho['p'], newsnap.momenta)
-        assert_almost_equal(newsnap, self.engine.current_snapshot)
+        assert_true(newsnap is not snap)
+        assert_almost_equal(newsnap.coordinates, 
+                            self.engine.current_snapshot.coordinates)
+        assert_almost_equal(newsnap.momenta,
+                            self.engine.current_snapshot.momenta)
 
     def test_generate(self):
         import openpathsampling as paths
@@ -88,3 +92,24 @@ class testDynamiqEngine(object):
         self.engine.start()
         traj = self.engine.generate(snap, running=[ensemble.can_append])
         assert_equal(len(traj), 10)
+        # don't bother will all-to-all checks, but make sure the first snap
+        # is not the same as any other and that the last snap is not the
+        # same as any other
+        snap0 = traj[0]
+        snapN = traj[-1]
+        assert_true(snap0 is not snapN)
+        snap0_coord = snap0.coordinates.tolist()
+        snapN_coord = snapN.coordinates.tolist()
+        snap0_momenta = snap0.momenta.tolist()
+        snapN_momenta = snapN.momenta.tolist()
+
+        assert_not_equal(snap0_coord, snapN_coord)
+        assert_not_equal(snap0_momenta, snapN_momenta)
+        for snap in traj[1:-1]:
+            assert_true(snap0 is not snap)
+            assert_true(snapN is not snap)
+            assert_not_equal(snap0_coord, snap.coordinates.tolist())
+            assert_not_equal(snapN_coord, snap.coordinates.tolist())
+            assert_not_equal(snap0_momenta, snap.momenta.tolist())
+            assert_not_equal(snapN_momenta, snap.momenta.tolist())
+

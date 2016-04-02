@@ -1,6 +1,6 @@
 from nose.tools import (
     assert_equal, assert_not_equal, assert_almost_equal, assert_items_equal,
-    raises
+    raises, assert_true
 )
 from nose.plugins.skip import Skip, SkipTest
 
@@ -15,6 +15,13 @@ def check_function(function, dictionary):
     """
     for test_input in dictionary.keys():
         assert_almost_equal(function(test_input), dictionary[test_input])
+
+def assert_snapshot_almost_equal(snap1, snap2):
+    assert_array_almost_equal(snap1.coordinates, snap2.coordinates)
+    assert_array_almost_equal(snap1.momenta, snap2.momenta)
+    # TODO: proper automated testing for all attributes
+
+# TODO: assert_array_differ; assert_snapshot_differ
 
 def exact_ho(time, omega, m, p0, q0, x0=0.0):
     cos_wt = np.cos(omega*time)
