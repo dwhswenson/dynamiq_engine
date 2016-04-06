@@ -11,7 +11,7 @@ Mpp : numpy.ndarray, shape=(ndim, ndim), dtype=numpy.float32
     derivative dp_t / dp_0
 """
 
-attributes = ['Mqq', 'Mqp', 'Mpq', 'Mpp']
+variables = ['Mqq', 'Mqp', 'Mpq', 'Mpp']
 numpy = ['Mqq', 'Mqp', 'Mpq', 'Mpp']
 
 # TODO: add netcdfplus_init

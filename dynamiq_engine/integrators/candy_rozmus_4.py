@@ -25,9 +25,9 @@ class CandyRozmus4(Integrator):
     _feature_type = {
         'coordinates' : [paths_f.coordinates, dynq_f.electronic_coordinates],
         'momenta' : [dynq_f.momenta, dynq_f.electronic_momenta],
-        'trajectory' : [dynq_f.action, dynq_f.monodromy],
+        'trajectory' : [dynq_f.action],
         'not_integrated' : [paths_f.topology],
-        'properties' : [paths_f.xyz, dynq_f.velocities]
+        'misc' : [dynq_f.monodromy]
         # TODO: support for monodromy, prefactor, etc
     }
 
@@ -57,10 +57,9 @@ class CandyRozmus4(Integrator):
 
     def cast_snapshot(self, snapshot):
         # TODO: this will do to superclass
-        snap_features = set(snapshot.__features__['classes'])
+        snap_features = set(snapshot.__features__.classes)
         integ_only = set(self.feature_list) - set(snap_features)
-        not_integrated = set(self._feature_type['not_integrated'] +
-                             self._feature_type['properties'])
+        not_integrated = set(self._feature_type['not_integrated'])
         snap_only = snap_features - set(self.feature_list) - not_integrated
 
         print "snap_only", snap_only

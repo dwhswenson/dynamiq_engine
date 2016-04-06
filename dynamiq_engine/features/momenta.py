@@ -6,7 +6,7 @@ momenta : numpy.ndarray, shape=(ndim,), dtype=numpy.float32
 """
 
 
-attributes = ['momenta']
+variables = ['momenta']
 numpy = ['momenta']
 
 def netcdfplus_init(store):
@@ -16,3 +16,14 @@ def netcdfplus_init(store):
         description="the momentum associated with the given degree of freedom",
         chunksizes=(1, 'ndim')
     )
+
+
+@property
+def velocities(snapshot):
+    """
+    Returns
+    -------
+    velocites : numpy.ndarray
+        velocities
+    """
+    return snapshot.momenta * snapshot.topology.inverse_masses

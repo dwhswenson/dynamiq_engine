@@ -14,9 +14,7 @@ Snapshot = peng.SnapshotFactory(
     name='Snapshot',
     features=[
         peng.features.coordinates,
-        peng.features.xyz,
         features.momenta,
-        features.velocities,
         peng.features.topology
     ],
     description="Simple snapshot for dynamiq.",
@@ -27,9 +25,7 @@ MMSTSnapshot = peng.SnapshotFactory(
     name='MMSTSnapshot',
     features=[
         peng.features.coordinates,
-        peng.features.xyz,
         features.momenta,
-        features.velocities,
         features.electronic_momenta,
         features.electronic_coordinates,
         peng.features.topology
@@ -179,7 +175,7 @@ class DynamiqEngine(peng.DynamicsEngine):
         self._current_snapshot = copy.deepcopy(snap)
 
     def start(self):
-        features = self.template.__features__['classes']
+        features = self.template.__features__.classes
         self.integrator.prepare(features)
 
     def generate_next_frame(self):

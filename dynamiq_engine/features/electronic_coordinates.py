@@ -4,7 +4,7 @@ Attributes
 electronic_coordinates : numpy.ndarray, shape=(n_electronic,), dtype=numpy.float32
     electronic (MMST) coordinates of the system
 """
-attributes = ['electronic_coordinates']
+variables = ['electronic_coordinates']
 numpy = ['electronic_coordinates']
 
 
